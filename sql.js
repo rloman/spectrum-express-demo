@@ -43,6 +43,15 @@ express.get("/users/list", (request, response) => {
   });
 });
 
+// eerst testen met Postman
+express.get('/users/:id', (request, response) => {
+  const id = +request.params.id;
+  connection.query('select * from users where id=?;', [id], (err, result) => {
+      if(err) throw err;
+      response.send(result);
+  });
+});
+
 express.post("/users/new", async (request, response) => {
   console.log(request.ip + ": Added new user");
   var body = request.body;

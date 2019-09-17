@@ -93,6 +93,34 @@
             }
         }
 
+        function getGuestById(id) {
+            const xhttp = new XMLHttpRequest();
+            const url = 'http://localhost:3000/api/guest/'+id;
+
+            xhttp.open('GET', url);
+            xhttp.send();
+
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4 && xhttp.status === 200 ) {
+                    const jsonResult = JSON.parse(xhttp.responseText);
+                    jsonResult.forEach(element => {
+
+                        let table = document.getElementById('guesttable'); 
+                        let insertRow = table.insertRow();
+                        
+                        for (let key in element) {
+                            let cell = insertRow.insertCell();
+                            cell.innerHTML = element[key];
+                        }
+
+                    });
+                }
+            }
+
+
+            
+        }
+
     </script>
 </body>
 </html>
