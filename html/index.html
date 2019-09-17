@@ -25,6 +25,30 @@
         <br>
         <br>
     </div>
+    <div id="getresultById">
+        Gast ID: <input type="text" id="guestId" name="guestId">
+        <h1>Gast</h1>
+      
+       Last name: <input type="text" name="lastName" id="lastName"><br>
+       First name: <input type="text" name="firstName" id="firstName"><br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody id='guestByIdTable'>
+            </tbody>
+        </table>
+        <button onClick="getGuestById();">Laat gast zien</button>
+        <button onClick="updateGuestById();">Update gast</button>
+        <br>
+        <br>
+    </div>
     <div id="newguest">
         <h1>Maak een nieuwe gast aan:</h1>
         <label for="username">Name
@@ -53,7 +77,7 @@
             const newGuest = { username:username, email:email, telnr:telnr };
 
             const xhttp = new XMLHttpRequest();
-            const url = 'http://localhost:3000/api/guest';
+            const url = 'http://localhost:3000/api/guests';
 
             xhttp.open("POST", url);
             xhttp.setRequestHeader("Content-type", "application/json");
@@ -70,7 +94,7 @@
             document.getElementById('guesttable').innerHTML = ""; 
 
             const xhttp = new XMLHttpRequest();
-            const url = 'http://localhost:3000/api/guest';
+            const url = 'http://localhost:3000/api/guests';
 
             xhttp.open('GET', url);
             xhttp.send();
@@ -91,6 +115,57 @@
                     });
                 }
             }
+        }
+
+        function getGuestById() {
+            const id = +document.getElementById('guestId').value;
+            const xhttp = new XMLHttpRequest();
+            const url = 'http://localhost:3000/api/guests/'+id;
+
+            xhttp.open('GET', url);
+            xhttp.send();
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4 && xhttp.status === 200 ) {
+                    const jsonResult = JSON.parse(xhttp.responseText);
+
+                    document.getElementById('lastName').value = jsonResult.lastName;
+                    document.getElementById('firstName').value = jsonResult.firstName;
+                        
+                }
+            }
+        }
+
+        function updateGuestById() {
+            const id = +document.getElementById('guestId').value;
+            const lastName = document.getElementById('lastName').value;
+            const firstName = document.getElementById('firstName').value;
+
+            const xhttp = new XMLHttpRequest();
+            const url = 'http://localhost:3000/api/guests/'+id;
+
+            const jsonObject = {
+                id: id,
+                lastName: lastName,
+                firstName: firstName
+            }
+
+            xhttp.open('put', url);
+
+            xhttp.setRequestHeader("Content-Type", "application/json");
+
+			// we forgot this!!!
+            xhttp.send(JSON.stringify(jsonObject));
+
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4 && xhttp.status === 200 ) {
+                    const jsonResult = JSON.parse(xhttp.responseText);
+
+                    document.getElementById('lastName').value = jsonResult.lastName;
+                    document.getElementById('firstName').value = jsonResult.firstName;
+                      
+                }
+            }
+
         }
 
     </script>
