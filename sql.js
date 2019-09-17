@@ -7,8 +7,8 @@ express.use(bp.json());
 
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "aydin",
-  password: "zegikniet",
+  user: "rloman",
+  password: "poedel",
   database: "molveno"
 });
 
@@ -16,7 +16,7 @@ connection.connect((err) => { if (err) throw err; });
 
 function createNewUser(user) {
   return new Promise( (resolve, reject) => {
-    connection.query("INSERT INTO guest SET ?", user, (err, result) => {
+    connection.query("INSERT INTO guests SET ?", user, (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });
