@@ -41,7 +41,7 @@ controller.get('/api/guests', (req, res) => {
     
     res.setHeader('Content-Type', 'application/json');
 
-    connection.query('SELECT * FROM guest', (err, guests) => {
+    connection.query('SELECT * FROM guests', (err, guests) => {
         if(err) throw err;
         res.send(guests);
     });
@@ -49,11 +49,19 @@ controller.get('/api/guests', (req, res) => {
 });
 
 // eerst testen met Postman
-controller.get('/api/users/:id', (request, response) => {
+controller.get('/api/guests/:id', (request, response) => {
     const id = +request.params.id;
-    connection.query('select * from users where id=?;', [id], (err, result) => {
+    connection.query('select * from guests where id=?;', [id], (err, result) => {
         if(err) throw err;
-        response.send(result);
+       
+        const guest = result[0];
+        if(guest) {
+            response.send(guest);
+        }
+        else {
+            response.status(404).end();
+        }
+        
     });
 });
 
@@ -61,7 +69,7 @@ controller.post('/api/guests', function (req, res) {
     
     let content = req.body;
     
-    connection.query('INSERT INTO guest SET ?', content, (err, result) => {
+    connection.query('INSERT INTO guests SET ?', content, (err, result) => {
         if (err) throw err;
         res.send(result)
     });
@@ -72,7 +80,7 @@ controller.delete('/api/guests/:id', function(req, res) {
 
     let id = +req.params.id;
 
-    connection.query('DELETE FROM guest WHERE id = ?', id, (err, result) => {
+    connection.query('DELETE FROM guests WHERE id = ?', id, (err, result) => {
         if(err) throw err;
         console.log('Deleted ', result.affectedRows,' rows');
         res.status(204).end();
@@ -84,11 +92,11 @@ controller.put('/api/guests/:id', function(req, res) {
     let id = +req.params.id;
     let inputUser = req.body;
 
-    connection.query('UPDATE guest SET ? WHERE id = ?', [inputUser, id], (err, response) => {
+    connection.query('UPDATE guests SET ? WHERE id = ?', [inputUser, id], (err, response) => {
         if(err) throw err;
-        connection.query('SELECT * FROM guest WHERE id = ?', id, (updatedErr, updatedGuest) => {
+        connection.query('SELECT * FROM guests WHERE id = ?', id, (updatedErr, updatedGuest) => {
             if(updatedErr) throw updatedErr;
-            res.send(updatedGuest);
+            res.send(updatedGuest[0]);
         });
     });
 });
