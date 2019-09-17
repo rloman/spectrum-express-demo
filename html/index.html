@@ -128,8 +128,6 @@
                 if (xhttp.readyState === 4 && xhttp.status === 200 ) {
                     const jsonResult = JSON.parse(xhttp.responseText);
 
-                    console.log(jsonResult);
-
                     document.getElementById('lastName').value = jsonResult.lastName;
                     document.getElementById('firstName').value = jsonResult.firstName;
                         
@@ -155,26 +153,16 @@
 
             xhttp.setRequestHeader("Content-Type", "application/json");
 
+			// we forgot this!!!
             xhttp.send(JSON.stringify(jsonObject));
 
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState === 4 && xhttp.status === 200 ) {
                     const jsonResult = JSON.parse(xhttp.responseText);
 
-                    console.log("na update =>")
-                    console.log(jsonResult);
-
                     document.getElementById('lastName').value = jsonResult.lastName;
                     document.getElementById('firstName').value = jsonResult.firstName;
-                        /*
-                        let table = document.getElementById('guestByIdTable'); 
-                        let insertRow = table.insertRow();
-                        
-                        for (let key in jsonResult) {
-                            let cell = insertRow.insertCell();
-                            cell.innerHTML = jsonResult[key];
-                        }
-                        */
+                      
                 }
             }
 

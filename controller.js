@@ -1,5 +1,3 @@
-// dit is de controller.js
-
 const express = require('express');
 const controller = express();
 const port = 3000;
@@ -48,7 +46,7 @@ controller.get('/api/guests', (req, res) => {
 
 });
 
-// eerst testen met Postman
+
 controller.get('/api/guests/:id', (request, response) => {
     const id = +request.params.id;
     connection.query('select * from guests where id=?;', [id], (err, result) => {
