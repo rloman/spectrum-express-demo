@@ -1,7 +1,7 @@
 // dit is de controller.js
 
 const express = require('express');
-const app = express();
+const controller = express();
 const port = 3000;
 
 const mysql = require("mysql");
@@ -26,18 +26,18 @@ let bodyParser = require('body-parser');
 
 // say to the app (express instance) that he might sometimes render
 // the body of a POST/PUT from JSON to an Object
-app.use(bodyParser.json());
+controller.use(bodyParser.json());
 
 // for now this is to say that everyone can reach this webserver
 // from everywhere
-app.use(function(req, res, next) {
+controller.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
-app.get('/api/guests', (req, res) => {
+controller.get('/api/guests', (req, res) => {
     
     res.setHeader('Content-Type', 'application/json');
 
@@ -49,7 +49,7 @@ app.get('/api/guests', (req, res) => {
 });
 
 // eerst testen met Postman
-app.get('/api/users/:id', (request, response) => {
+controller.get('/api/users/:id', (request, response) => {
     const id = +request.params.id;
     connection.query('select * from users where id=?;', [id], (err, result) => {
         if(err) throw err;
@@ -57,7 +57,7 @@ app.get('/api/users/:id', (request, response) => {
     });
 });
 
-app.post('/api/guests', function (req, res) {
+controller.post('/api/guests', function (req, res) {
     
     let content = req.body;
     
@@ -68,7 +68,7 @@ app.post('/api/guests', function (req, res) {
 
 });
 
-app.delete('/api/guests/:id', function(req, res) {
+controller.delete('/api/guests/:id', function(req, res) {
 
     let id = +req.params.id;
 
@@ -79,7 +79,7 @@ app.delete('/api/guests/:id', function(req, res) {
     });
 });
 
-app.put('/api/guests/:id', function(req, res) {
+controller.put('/api/guests/:id', function(req, res) {
 
     let id = +req.params.id;
     let inputUser = req.body;
@@ -93,6 +93,6 @@ app.put('/api/guests/:id', function(req, res) {
     });
 });
 
-app.listen(port, () => { 
+controller.listen(port, () => { 
     console.log('Server running on port: ', port);
 });
