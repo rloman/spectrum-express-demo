@@ -1,3 +1,5 @@
+// dit is de controller.js
+
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -6,8 +8,8 @@ const mysql = require("mysql");
 
 const connection = mysql.createConnection({
 	host: 'localhost',
-	user: 'aydin',
-	password: 'zegikniet',
+	user: 'rloman',
+	password: 'poedel',
 	database: 'molveno'
 });
 
@@ -35,7 +37,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/api/guest', (req, res) => {
+app.get('/api/guests', (req, res) => {
     
     res.setHeader('Content-Type', 'application/json');
 
@@ -53,13 +55,9 @@ app.get('/api/users/:id', (request, response) => {
         if(err) throw err;
         response.send(result);
     });
-  });
-
-app.listen(port, () => { 
-    console.log('Server running on port: ', port);
 });
 
-app.post('/api/guest', function (req, res) {
+app.post('/api/guests', function (req, res) {
     
     let content = req.body;
     
@@ -70,7 +68,7 @@ app.post('/api/guest', function (req, res) {
 
 });
 
-app.delete('/api/guest/:id', function(req, res) {
+app.delete('/api/guests/:id', function(req, res) {
 
     let id = +req.params.id;
 
@@ -81,7 +79,7 @@ app.delete('/api/guest/:id', function(req, res) {
     });
 });
 
-app.put('/api/guest/:id', function(req, res) {
+app.put('/api/guests/:id', function(req, res) {
 
     let id = +req.params.id;
     let inputUser = req.body;
@@ -95,3 +93,6 @@ app.put('/api/guest/:id', function(req, res) {
     });
 });
 
+app.listen(port, () => { 
+    console.log('Server running on port: ', port);
+});
