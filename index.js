@@ -46,6 +46,15 @@ app.get('/api/guest', (req, res) => {
 
 });
 
+// eerst testen met Postman
+app.get('/api/users/:id', (request, response) => {
+    const id = +request.params.id;
+    connection.query('select * from users where id=?;', [id], (err, result) => {
+        if(err) throw err;
+        response.send(result);
+    });
+  });
+
 app.listen(port, () => { 
     console.log('Server running on port: ', port);
 });
@@ -84,6 +93,5 @@ app.put('/api/guest/:id', function(req, res) {
             res.send(updatedGuest);
         });
     });
-
 });
 
